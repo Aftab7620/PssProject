@@ -1,0 +1,6 @@
+public class ArchiveInspectionScheduler implements Schedulable {
+
+    public void execute(SchedulableContext sc) {
+        Database.executeBatch(new ArchiveInspectionBatch(), 200);
+    }
+}
