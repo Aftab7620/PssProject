@@ -1,0 +1,5 @@
+trigger subsidyTrigger on Subsidy_Assignment__c (before insert,before update) {
+    
+    SubsidyHandler.updateCheckbox(Trigger.new);
+
+}
