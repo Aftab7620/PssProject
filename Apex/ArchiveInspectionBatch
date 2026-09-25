@@ -1,0 +1,22 @@
+public class ArchiveInspectionBatch implements Database.Batchable<SObject> {
+
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+
+        return Database.getQueryLocator(
+            [SELECT Id FROM Inspection__c WHERE Status__c = 'Pass'AND Outcome__c = 'Success'AND Archieved__c = FALSE]);
+    }
+
+    public void execute(Database.BatchableContext bc, List<Inspection__c> scope) {
+        for(Inspection__c rec : scope){
+            rec.Archieved__c = true;
+        }
+        if(!scope.isEmpty()){
+            update scope;
+        }
+    }
+
+    public void finish(Database.BatchableContext bc) {
+
+        System.debug('Inspection Archive Batch Completed');
+    }
+}
