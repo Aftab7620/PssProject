@@ -1,0 +1,10 @@
+public class SubsidyHandler {
+    public static void updateCheckbox(List<Subsidy_Assignment__c> newlist){
+        Decimal threshold = 50000;
+        for(Subsidy_Assignment__c rec : newlist){
+            if(rec.Requested_Amount__c != null && rec.Requested_Amount__c > threshold){
+                rec.Notify_Comissioner__c = true; 
+            }
+        }
+    }
+}
