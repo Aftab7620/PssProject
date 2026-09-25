@@ -1,0 +1,17 @@
+trigger inspectionTrigger on Inspection__c (before insert,before update,after insert, after update) {
+    
+    if(Trigger.isBefore){
+        if(Trigger.isUpdate){
+            InspectionHandler.beforeUpdate( Trigger.new, Trigger.oldMap );
+            
+        }
+    }
+  
+    if (Trigger.isAfter){
+        if(Trigger.isUpdate) { 
+        InspectionHandler.afterUpdate( Trigger.new, Trigger.oldMap ); 
+    }
+        
+    }
+
+}
