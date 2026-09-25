@@ -1,0 +1,175 @@
+<template>
+
+    <!-- 🔹 HEADER -->
+    <div class="header">
+        <h2>Subsidy Dashboard</h2>
+
+        <lightning-button 
+            label="Request Subsidy" 
+            variant="brand"
+            onclick={handleRequest}>
+        </lightning-button>
+    </div>
+
+    <!-- 🔹 SUMMARY CARDS -->
+    <div class="summary">
+
+        <div class="summary-card">
+            <p>Total Requests</p>
+            <h2>{totalCount}</h2>
+        </div>
+
+        <div class="summary-card">
+            <p>Pending</p>
+            <h2>{pendingCount}</h2>
+        </div>
+
+        <div class="summary-card">
+            <p>Under Review</p>
+            <h2>{reviewCount}</h2>
+        </div>
+
+        <div class="summary-card">
+            <p>Approved</p>
+            <h2>{approvedCount}</h2>
+        </div>
+
+    </div>
+
+    <!-- 🔹 CATEGORY SECTIONS -->
+    <template for:each={groupedData} for:item="group">
+
+        <div key={group.category} class="category-section">
+
+            <div class="category-title">
+                {group.category}
+            </div>
+
+            <div class="subsidy-grid">
+
+                <template for:each={group.records} for:item="rec">
+
+                    <div key={rec.id} class="subsidy-card">
+
+                        <!-- STATUS -->
+                        <span class={rec.statusClass}>
+                            {rec.status}
+                        </span>
+
+                        <!-- NAME -->
+                        <div class="sub-title">{rec.name}</div>
+
+                        <!-- DETAILS -->
+                        <div class="sub-text">
+                            Requested: ₹{rec.requestedAmount}
+                        </div>
+
+                        <div class="sub-text">
+                            Approved: ₹{rec.approvedAmount}
+                        </div>
+
+                        <div class="sub-text">
+                            Eligibility: {rec.eligibility}
+                        </div>
+
+                    </div>
+
+                </template>
+
+            </div>
+        </div>
+
+    </template>
+
+
+    <!-- 🔥 MODAL -->
+    <template if:true={showModal}>
+
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+
+            <div class="slds-modal__container">
+
+                <!-- HEADER -->
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">
+                        Request Subsidy
+                    </h2>
+                </header>
+
+                <!-- BODY -->
+                <div class="slds-modal__content slds-p-around_medium">
+
+                    <lightning-combobox
+    label="Select Permit"
+    value={selectedPermitId}
+    options={permitOptions}
+    onchange={handlePermitChange}>
+</lightning-combobox>
+
+                    <!-- CATEGORY -->
+                    <lightning-combobox
+                        label="Category"
+                        options={categoryOptions}
+                        value={subsidy.category}
+                        data-field="category"
+                        placeholder="Select Category"
+                        onchange={handleChange}
+                        required>
+                    </lightning-combobox>
+
+                    <!-- REQUEST TYPE -->
+                    <lightning-combobox
+                        label="Request Type"
+                        options={requestTypeOptions}
+                        value={subsidy.requestType}
+                        data-field="requestType"
+                        placeholder="Select Request Type"
+                        onchange={handleChange}>
+                    </lightning-combobox>
+
+                    <!-- AMOUNT -->
+                    <lightning-input
+                        type="number"
+                        label="Requested Amount"
+                        value={subsidy.requestedAmount}
+                        data-field="requestedAmount"
+                        onchange={handleChange}
+                        required>
+                    </lightning-input>
+
+                    <!-- NOTES -->
+                    <lightning-textarea
+                        label="Notes"
+                        value={subsidy.notes}
+                        data-field="notes"
+                        onchange={handleChange}>
+                    </lightning-textarea>
+
+                </div>
+
+                <!-- FOOTER -->
+                <footer class="slds-modal__footer">
+
+                    <lightning-button 
+                        label="Cancel"
+                        onclick={closeModal}>
+                    </lightning-button>
+
+                    <lightning-button 
+                        variant="brand"
+                        label="Submit"
+                        onclick={submitSubsidy}>
+                    </lightning-button>
+
+                </footer>
+
+            </div>
+
+        </section>
+
+        <!-- BACKDROP -->
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+</template>
