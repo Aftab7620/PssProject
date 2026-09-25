@@ -1,0 +1,15 @@
+trigger permitApplicationTrigger on Permit_Application__c (after insert,after update) {
+    if(trigger.isBefore){
+        
+    }
+    if(trigger.isAfter){
+        if(trigger.IsInsert){
+			permitApplicationHandler.shareRecordWithInspector(trigger.new);
+        }
+        if(trigger.Isupdate){
+            permitApplicationHandler.shareRecordWithInspector(trigger.new);
+            
+        }
+    }
+
+}
